@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS // URL Index</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050508;
+    --surface: #0c0c14;
+    --card: #10101c;
+    --border: rgba(255,255,255,0.07);
+    --active: #00f5a0;
+    --active-glow: rgba(0,245,160,0.25);
+    --inactive: #ff3b5c;
+    --inactive-glow: rgba(255,59,92,0.2);
+    --accent: #7b5ea7;
+    --accent2: #4fc3f7;
+    --text: #e8e8f0;
+    --muted: #5a5a72;
+    --highlight: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(123,94,167,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(123,94,167,0.04) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Radial spotlight */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -30vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    height: 80vh;
+    background: radial-gradient(ellipse at center, rgba(123,94,167,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    background: rgba(5,5,8,0.7);
+    position: sticky;
+    top: 0;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.18em;
+    background: linear-gradient(90deg, #fff 30%, var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .logo span {
+    color: var(--active);
+    -webkit-text-fill-color: var(--active);
+    font-size: 0.5em;
+    letter-spacing: 0.3em;
+    display: block;
+    margin-top: -6px;
+    opacity: 0.7;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--active);
+    letter-spacing: 0.12em;
+  }
+
+  .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--active);
+    box-shadow: 0 0 10px var(--active);
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,100% { transform: scale(1); opacity:1; }
+    50% { transform: scale(1.4); opacity:0.6; }
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 72px 24px 48px;
+  }
+
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    opacity: 0.85;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.55) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 0 48px 52px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(12,12,20,0.6);
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 20px 24px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-value.green { color: var(--active); text-shadow: 0 0 20px var(--active-glow); }
+  .stat-value.red   { color: var(--inactive); text-shadow: 0 0 20px var(--inactive-glow); }
+  .stat-value.blue  { color: var(--accent2); }
+  .stat-value.purple{ color: var(--accent); }
+
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTROLS ─── */
+  .controls {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 48px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 220px;
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 16px 11px 40px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(123,94,167,0.15);
+  }
+
+  .search-input::placeholder { color: var(--muted); }
+
+  .filter-btn {
+    padding: 11px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+
+  .filter-btn.active-filter {
+    background: rgba(0,245,160,0.1);
+    border-color: var(--active);
+    color: var(--active);
+  }
+
+  .filter-btn.inactive-filter {
+    background: rgba(255,59,92,0.1);
+    border-color: var(--inactive);
+    color: var(--inactive);
+  }
+
+  .filter-btn.all-filter.selected {
+    background: rgba(123,94,167,0.15);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .add-btn {
+    padding: 11px 22px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), #5a3d88);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .add-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(123,94,167,0.4);
+  }
+
+  /* ─── CATEGORY SECTIONS ─── */
+  .main {
+    position: relative;
+    z-index: 2;
+    padding: 0 48px 80px;
+  }
+
+  .category-section { margin-bottom: 48px; }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .category-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .category-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .category-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 10px;
+  }
+
+  /* ─── URL GRID ─── */
+  .url-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  /* ─── URL BUTTON CARD ─── */
+  .url-card {
+    position: relative;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .url-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .url-card.is-active:hover {
+    border-color: rgba(0,245,160,0.4);
+    box-shadow: 0 8px 32px rgba(0,245,160,0.12);
+  }
+
+  .url-card.is-inactive:hover {
+    border-color: rgba(255,59,92,0.3);
+    box-shadow: 0 8px 32px rgba(255,59,92,0.08);
+  }
+
+  /* Shimmer top border */
+  .url-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--status-color, var(--accent)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .url-card:hover::before { opacity: 1; }
+  .url-card.is-active { --status-color: var(--active); }
+  .url-card.is-inactive { --status-color: var(--inactive); }
+
+  .card-inner {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .site-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: inherit;
+  }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .status-pill.active {
+    background: rgba(0,245,160,0.12);
+    color: var(--active);
+    border: 1px solid rgba(0,245,160,0.25);
+  }
+
+  .status-pill.inactive {
+    background: rgba(255,59,92,0.12);
+    color: var(--inactive);
+    border: 1px solid rgba(255,59,92,0.2);
+  }
+
+  .status-pip {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .status-pill.active .status-pip {
+    animation: pulse-dot 1.5s infinite;
+  }
+
+  .card-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--highlight);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-url {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    color: var(--accent2);
+    background: rgba(79,195,247,0.08);
+    border: 1px solid rgba(79,195,247,0.15);
+    border-radius: 5px;
+    padding: 2px 8px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── URL BUTTON ─── */
+  .url-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+    transition: all 0.2s;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .url-btn::after {
+    content: '↗';
+    position: absolute;
+    right: 12px;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.2s;
+    font-size: 0.8rem;
+  }
+
+  .url-btn:hover {
+    padding-right: 30px;
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .url-btn:hover::after { opacity: 1; transform: translateX(0); }
+
+  .url-btn.active-btn:hover {
+    background: rgba(0,245,160,0.07);
+    border-color: rgba(0,245,160,0.3);
+    color: var(--active);
+  }
+
+  .url-btn.inactive-btn {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .url-btn.inactive-btn:hover {
+    opacity: 0.7;
+    background: rgba(255,59,92,0.06);
+    border-color: rgba(255,59,92,0.2);
+    color: var(--inactive);
+    padding-right: 14px;
+  }
+
+  .url-btn.inactive-btn::after { display: none; }
+
+  .btn-icon { font-size: 0.8rem; flex-shrink: 0; }
+
+  .btn-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .ping-badge {
+    font-size: 0.58rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(0,245,160,0.1);
+    color: var(--active);
+    border: 1px solid rgba(0,245,160,0.2);
+    flex-shrink: 0;
+  }
+
+  .offline-badge {
+    font-size: 0.58rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(255,59,92,0.1);
+    color: var(--inactive);
+    border: 1px solid rgba(255,59,92,0.2);
+    flex-shrink: 0;
+  }
+
+  /* ─── ADD MODAL ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid rgba(123,94,167,0.3);
+    border-radius: 20px;
+    padding: 36px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+    animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+
+  .modal-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 7px;
+  }
+
+  .form-input, .form-select {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+
+  .form-select option { background: var(--card); }
+
+  .form-input:focus, .form-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(123,94,167,0.15);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .btn-cancel {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-cancel:hover { background: var(--card); color: var(--text); }
+
+  .btn-save {
+    flex: 2;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), #5a3d88);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+
+  .btn-save:hover {
+    box-shadow: 0 8px 24px rgba(123,94,167,0.45);
+    transform: translateY(-1px);
+  }
+
+  /* ─── SCANLINE EFFECT ─── */
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--active), transparent);
+    opacity: 0.5;
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  @keyframes scan {
+    0%   { top: 0; opacity: 0.5; }
+    50%  { opacity: 0.2; }
+    100% { top: 100vh; opacity: 0; }
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 28px;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hidden { display: none !important; }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    z-index: 200;
+    animation: slideIn 0.3s ease both;
+    max-width: 320px;
+  }
+
+  .toast.hide { animation: slideOut 0.3s ease both; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slideOut {
+    to { opacity: 0; transform: translateX(20px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    header { padding: 18px 20px; }
+    .stats-bar { margin: 0 20px 36px; }
+    .controls { padding: 0 20px; }
+    .main { padding: 0 20px 60px; }
+    .hero { padding: 48px 20px 32px; }
+    .stat-item { padding: 14px 12px; }
+    .stat-value { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    NEXUS<span>URL INDEX SYSTEM</span>
+  </div>
+  <div class="header-right">
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      LIVE MONITORING
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">// SYSTEM DASHBOARD v2.0</div>
+  <h1 class="hero-title">URL INDEX</h1>
+  <p class="hero-sub">Track, monitor, and manage all your web resources in one unified futuristic command center.</p>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item">
+    <div class="stat-value blue" id="statTotal">0</div>
+    <div class="stat-label">Total Sites</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value green" id="statActive">0</div>
+    <div class="stat-label">Active</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value red" id="statInactive">0</div>
+    <div class="stat-label">Inactive</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value purple" id="statCategories">0</div>
+    <div class="stat-label">Categories</div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" type="text" id="searchInput" placeholder="Search sites, URLs, tags...">
+  </div>
+  <button class="filter-btn all-filter selected" id="filterAll" onclick="setFilter('all')">ALL</button>
+  <button class="filter-btn active-filter" id="filterActive" onclick="setFilter('active')">● ACTIVE</button>
+  <button class="filter-btn inactive-filter" id="filterInactive" onclick="setFilter('inactive')">● INACTIVE</button>
+  <button class="add-btn" onclick="openModal()">+ ADD SITE</button>
+</div>
+
+<!-- MAIN GRID -->
+<main class="main" id="mainContent"></main>
+
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title">Add New Site</div>
+    <div class="modal-sub">Register a new URL to the NEXUS index.</div>
+
+    <div class="form-group">
+      <label class="form-label">Site Name</label>
+      <input class="form-input" id="newName" placeholder="e.g. My Project Dashboard">
+    </div>
+    <div class="form-group">
+      <label class="form-label">URL</label>
+      <input class="form-input" id="newUrl" placeholder="https://example.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <input class="form-input" id="newCategory" placeholder="e.g. Tools, Social, Dev...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tags (comma separated)</label>
+      <input class="form-input" id="newTags" placeholder="e.g. api, analytics, cms">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="newStatus">
+        <option value="active">🟢 Active</option>
+        <option value="inactive">🔴 Inactive</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Emoji Icon</label>
+      <input class="form-input" id="newEmoji" placeholder="e.g. 🌐 🛠 📊 🔒">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="addSite()">ADD TO INDEX →</button>
+    </div>
+  </div>
+</div>
+
+<footer>NEXUS URL INDEX // ALL SYSTEMS OPERATIONAL // BUILT WITH ❤ FOR THE FUTURE</footer>
+
+<script>
+// ─── DATA ───
+let sites = [
+  // Dev & Tools
+  { id:1, name:'GitHub', url:'https://github.com', category:'Development', tags:['git','code','open-source'], status:'active', icon:'G', ping:'12ms' },
+  { id:2, name:'Stack Overflow', url:'https://stackoverflow.com', category:'Development', tags:['qa','community'], status:'active', icon:'S', ping:'34ms' },
+  { id:3, name:'CodePen', url:'https://codepen.io', category:'Development', tags:['frontend','playground'], status:'active', icon:'C', ping:'21ms' },
+  { id:4, name:'Old Dev Portal', url:'https://dev-old.example.com', category:'Development', tags:['legacy'], status:'inactive', icon:'D' },
+
+  // Design
+  { id:5, name:'Figma', url:'https://figma.com', category:'Design', tags:['ui','ux','collaboration'], status:'active', icon:'F', ping:'18ms' },
+  { id:6, name:'Dribbble', url:'https://dribbble.com', category:'Design', tags:['inspiration','shots'], status:'active', icon:'D', ping:'28ms' },
+  { id:7, name:'Archived Design Lab', url:'https://design-lab.example.com', category:'Design', tags:['archived'], status:'inactive', icon:'A' },
+
+  // AI & Tech
+  { id:8, name:'OpenAI', url:'https://openai.com', category:'AI & Tech', tags:['ai','llm','gpt'], status:'active', icon:'O', ping:'8ms' },
+  { id:9, name:'Hugging Face', url:'https://huggingface.co', category:'AI & Tech', tags:['ml','models'], status:'active', icon:'H', ping:'42ms' },
+  { id:10, name:'AI Beta Platform', url:'https://ai-beta.example.com', category:'AI & Tech', tags:['beta','deprecated'], status:'inactive', icon:'B' },
+
+  // Social
+  { id:11, name:'X / Twitter', url:'https://x.com', category:'Social', tags:['social','news'], status:'active', icon:'X', ping:'15ms' },
+  { id:12, name:'LinkedIn', url:'https://linkedin.com', category:'Social', tags:['professional','network'], status:'active', icon:'L', ping:'22ms' },
+  { id:13, name:'Old Forum', url:'https://forum.example.com', category:'Social', tags:['community','offline'], status:'inactive', icon:'F' },
+
+  // Analytics
+  { id:14, name:'Google Analytics', url:'https://analytics.google.com', category:'Analytics', tags:['tracking','data'], status:'active', icon:'G', ping:'11ms' },
+  { id:15, name:'Mixpanel', url:'https://mixpanel.com', category:'Analytics', tags:['events','funnels'], status:'active', icon:'M', ping:'30ms' },
+  { id:16, name:'Legacy Dashboard', url:'https://dashboard.old.example.com', category:'Analytics', tags:['deprecated'], status:'inactive', icon:'L' },
+];
+
+let currentFilter = 'all';
+let searchQuery = '';
+let nextId = 17;
+
+// ─── RENDER ───
+function getFiltered() {
+  return sites.filter(s => {
+    const matchFilter = currentFilter === 'all' || s.status === currentFilter;
+    const q = searchQuery.toLowerCase();
+    const matchSearch = !q ||
+      s.name.toLowerCase().includes(q) ||
+      s.url.toLowerCase().includes(q) ||
+      s.category.toLowerCase().includes(q) ||
+      s.tags.some(t => t.includes(q));
+    return matchFilter && matchSearch;
+  });
+}
+
+function updateStats() {
+  const total = sites.length;
+  const active = sites.filter(s => s.status === 'active').length;
+  const inactive = sites.filter(s => s.status === 'inactive').length;
+  const cats = [...new Set(sites.map(s => s.category))].length;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statActive').textContent = active;
+  document.getElementById('statInactive').textContent = inactive;
+  document.getElementById('statCategories').textContent = cats;
+}
+
+function render() {
+  updateStats();
+  const filtered = getFiltered();
+  const main = document.getElementById('mainContent');
+
+  if (filtered.length === 0) {
+    main.innerHTML = `<div style="text-align:center;padding:60px;color:var(--muted);font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;">// NO RESULTS FOUND</div>`;
+    return;
+  }
+
+  // Group by category
+  const grouped = {};
+  filtered.forEach(s => {
+    if (!grouped[s.category]) grouped[s.category] = [];
+    grouped[s.category].push(s);
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([cat, items]) => {
+    html += `
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-title">${cat}</div>
+          <div class="category-line"></div>
+          <div class="category-count">${items.length}</div>
+        </div>
+        <div class="url-grid">
+          ${items.map((s, i) => renderCard(s, i)).join('')}
+        </div>
+      </div>`;
+  });
+
+  main.innerHTML = html;
+}
+
+function renderCard(s, delay) {
+  const isActive = s.status === 'active';
+  const iconBg = isActive
+    ? 'linear-gradient(135deg,#7b5ea7,#4fc3f7)'
+    : 'linear-gradient(135deg,#3a3a4a,#2a2a3a)';
+
+  const tags = s.tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+  return `
+    <div class="url-card ${isActive ? 'is-active' : 'is-inactive'}" style="animation-delay:${delay * 60}ms">
+      <div class="card-inner">
+        <div class="card-top">
+          <div class="site-icon" style="background:${iconBg}">${s.icon}</div>
+          <div class="status-pill ${isActive ? 'active' : 'inactive'}">
+            <div class="status-pip"></div>
+            ${isActive ? 'ONLINE' : 'OFFLINE'}
+          </div>
+        </div>
+        <div>
+          <div class="card-name">${s.name}</div>
+          <div class="card-url">${s.url.replace('https://','')}</div>
+        </div>
+        <div class="card-tags">${tags}</div>
+        ${isActive
+          ? `<a class="url-btn active-btn" href="${s.url}" target="_blank" rel="noopener">
+               <span class="btn-icon">🔗</span>
+               <span class="btn-text">${s.url}</span>
+               <span class="ping-badge">${s.ping || '—'}</span>
+             </a>`
+          : `<button class="url-btn inactive-btn" onclick="showOfflineToast('${s.name}')" title="Site offline">
+               <span class="btn-icon">🚫</span>
+               <span class="btn-text">${s.url}</span>
+               <span class="offline-badge">OFFLINE</span>
+             </button>`
+        }
+      </div>
+    </div>`;
+}
+
+// ─── FILTER ───
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('filter' + f.charAt(0).toUpperCase() + f.slice(1)).classList.add('selected');
+  render();
+}
+
+// ─── SEARCH ───
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  render();
+});
+
+// ─── MODAL ───
+function openModal() { document.getElementById('modal').classList.add('open'); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+function addSite() {
+  const name = document.getElementById('newName').value.trim();
+  const url  = document.getElementById('newUrl').value.trim();
+  const cat  = document.getElementById('newCategory').value.trim() || 'Uncategorized';
+  const tags = document.getElementById('newTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const stat = document.getElementById('newStatus').value;
+  const emoji= document.getElementById('newEmoji').value.trim() || name[0]?.toUpperCase() || '?';
+
+  if (!name || !url) { showToast('⚠️ Name and URL are required.'); return; }
+
+  sites.push({ id: nextId++, name, url, category: cat, tags, status: stat, icon: emoji, ping: stat==='active'?'--ms':undefined });
+  closeModal();
+  ['newName','newUrl','newCategory','newTags','newEmoji'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('newStatus').value = 'active';
+  render();
+  showToast(`✅ "${name}" added to index!`);
+}
+
+// ─── TOAST ───
+function showOfflineToast(name) {
+  showToast(`🔴 "${name}" is currently offline.`);
+}
+
+function showToast(msg) {
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.classList.add('hide'); setTimeout(()=>t.remove(), 300); }, 3000);
+}
+
+// ─── INIT ───
+render();
+</script>
+</body>
+</html>
